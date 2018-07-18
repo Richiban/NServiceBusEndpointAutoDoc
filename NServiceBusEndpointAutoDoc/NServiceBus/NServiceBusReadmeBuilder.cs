@@ -28,18 +28,21 @@ namespace NServiceBusEndpointAutoDoc
             return new NServiceBusReadmeBuilder(handleMethods);
         }
 
+        internal ReadmeBuilder CreateReadme()
+        {
+            var readmeBuilder = new ReadmeBuilder();
+            var readmeEntries = _methods.Select(CreateReadmeEntry);
+
+            readmeBuilder.PrintEntries(readmeEntries);
+
+            return readmeBuilder;
+        }
+
         private static string GuessNsbAssemblyPath(string assemblyPath)
         {
             var assemblyDirectory = Path.GetDirectoryName(assemblyPath);
 
             return Path.Combine(assemblyDirectory, "NServiceBus.Core.dll");
-        }
-
-        internal void WriteInfoTo(ReadmeBuilder readmeBuilder)
-        {
-            var readmeEntries = _methods.Select(CreateReadmeEntry);
-
-            readmeBuilder.PrintEntries(readmeEntries);
         }
 
         ReadmeEntry CreateReadmeEntry(MethodInfo handleMethod)
