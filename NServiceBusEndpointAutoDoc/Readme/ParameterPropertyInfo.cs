@@ -1,6 +1,6 @@
 ﻿namespace NServiceBusEndpointAutoDoc
 {
-    public class ReadmeMessageParameter
+    class ParameterPropertyInfo
     {
         public string Field { get; internal set; }
         public string Type { get; internal set; }

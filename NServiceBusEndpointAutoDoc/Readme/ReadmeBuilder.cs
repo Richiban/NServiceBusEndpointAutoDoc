@@ -15,14 +15,14 @@ namespace NServiceBusEndpointAutoDoc
 
         internal void PrintEntry(ReadmeEntry readmeEntry)
         {
-            _stringBuilder.AppendLine($"## {readmeEntry.MessageType}");
+            _stringBuilder.AppendLine($"## {readmeEntry.ParameterTypeComments}");
             _stringBuilder.AppendLine("");
-            _stringBuilder.AppendLine($"{readmeEntry.HandlerTypeComments}");
+            _stringBuilder.AppendLine($"{readmeEntry.EnclosingTypeComments}");
             _stringBuilder.AppendLine("");
-            _stringBuilder.AppendLine($"{readmeEntry.HandlerMethodComments}");
+            _stringBuilder.AppendLine($"{readmeEntry.MethodComments}");
             _stringBuilder.AppendLine("");
 
-            _stringBuilder.AppendTable(readmeEntry.MessageParameters);
+            _stringBuilder.AppendTable(readmeEntry.ParameterPropertyInfos);
             _stringBuilder.AppendLine("");
             _stringBuilder.AppendLine("");
         }

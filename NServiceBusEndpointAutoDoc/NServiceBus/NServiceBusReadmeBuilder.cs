@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -15,7 +17,8 @@ namespace NServiceBusEndpointAutoDoc
 
         public static NServiceBusReadmeBuilder LoadFrom(string assemblyPath)
         {
-            var nsbAssembly = Assembly.LoadFrom(@"C:\Source\Asos.Marketplace\Commerce.Basket.Messaging\Messaging\bin\Debug\NServiceBus.Core.dll");
+            var nsbAssemblyPath = GuessNsbAssemblyPath(assemblyPath);
+            var nsbAssembly = Assembly.LoadFrom(nsbAssemblyPath);
 
             var messageHandlerInterface = nsbAssembly.GetType("NServiceBus.IHandleMessages`1");
 
@@ -23,6 +26,13 @@ namespace NServiceBusEndpointAutoDoc
                     .GetMethodsImplementing(messageHandlerInterface);
 
             return new NServiceBusReadmeBuilder(handleMethods);
+        }
+
+        private static string GuessNsbAssemblyPath(string assemblyPath)
+        {
+            var assemblyDirectory = Path.GetDirectoryName(assemblyPath);
+
+            return Path.Combine(assemblyDirectory, "NServiceBus.Core.dll");
         }
 
         internal void WriteInfoTo(ReadmeBuilder readmeBuilder)
@@ -46,7 +56,7 @@ namespace NServiceBusEndpointAutoDoc
                 messageAssemblyComments
                 .GetPropertyComments(messageType)
                 .Select(pc =>
-                    new ReadmeMessageParameter
+                    new ParameterPropertyInfo
                     {
                         Field = pc.property.Name,
                         Type = pc.property.PropertyType.Name,
@@ -57,10 +67,10 @@ namespace NServiceBusEndpointAutoDoc
 
             return new ReadmeEntry
             {
-                HandlerTypeComments = handlerAssemblyComments.GetComments(handlerType),
-                HandlerMethodComments = handlerAssemblyComments.GetComments(handleMethod),
-                MessageType = messageType.FullName,
-                MessageParameters = messageParameters
+                EnclosingTypeComments = handlerAssemblyComments.GetComments(handlerType),
+                MethodComments = handlerAssemblyComments.GetComments(handleMethod),
+                ParameterTypeComments = messageType.FullName,
+                ParameterPropertyInfos = messageParameters
             };
         }
     }

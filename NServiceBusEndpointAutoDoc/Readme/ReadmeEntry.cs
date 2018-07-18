@@ -2,11 +2,11 @@
 
 namespace NServiceBusEndpointAutoDoc
 {
-    public class ReadmeEntry
+    class ReadmeEntry
     {
-        public string MessageType { get; internal set; }
-        public string HandlerTypeComments { get; internal set; }
-        public string HandlerMethodComments { get; internal set; }
-        public IReadOnlyList<ReadmeMessageParameter> MessageParameters { get; internal set; }
+        public string ParameterTypeComments { get; internal set; }
+        public string EnclosingTypeComments { get; internal set; }
+        public string MethodComments { get; internal set; }
+        public IReadOnlyList<ParameterPropertyInfo> ParameterPropertyInfos { get; internal set; }
     }
 }

@@ -43,15 +43,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="Readme\ParameterPropertyInfo.cs" />
+    <Compile Include="Readme\ReadmeBuilder.cs" />
     <Compile Include="XmlDocComments\AssemblyCommentsCollection.cs" />
     <Compile Include="XmlDocComments\AssemblyCommentsMetaCollection.cs" />
     <Compile Include="NServiceBus\NServiceBusReadmeBuilder.cs" />
     <Compile Include="Reflection\AssemblyExtensions.cs" />
-    <Compile Include="Readme\NServiceBusReadmeBuilder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Readme\ReadmeEntry.cs" />
-    <Compile Include="Readme\ReadmeMessageParameter.cs" />
     <Compile Include="StringBuilderExtensions.cs" />
     <Compile Include="Reflection\TypeExtensions.cs" />
   </ItemGroup>
