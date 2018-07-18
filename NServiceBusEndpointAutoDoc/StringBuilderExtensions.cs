@@ -15,15 +15,15 @@ namespace NServiceBusEndpointAutoDoc
             var headings = new string[properties.Length];
             var values = new string[properties.Length, items.Count];
 
-            foreach (var (p, i) in properties.Select((p, i) => (p, i)))
+            foreach (var (p, i) in properties.Indexed())
             {
                 headings[i] = p.Name;
                 maxLengths[i] = Math.Max(maxLengths[i], p.Name.Length);
             }
 
-            foreach (var (p, x) in properties.Select((p, i) => (p, i)))
+            foreach (var (p, x) in properties.Indexed())
             {
-                foreach (var (v, y) in items.Select((v, i) => (v, i)))
+                foreach (var (v, y) in items.Indexed())
                 {
                     var val = p.GetValue(v)?.ToString() ?? "";
                     values[x, y] = $"{val}";
@@ -31,7 +31,7 @@ namespace NServiceBusEndpointAutoDoc
                 }
             }
 
-            foreach (var (h, i) in headings.Select((h, i) => (h, i)))
+            foreach (var (h, i) in headings.Indexed())
             {
                 sb.Append("| ");
                 sb.Append(h);

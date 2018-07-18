@@ -42,17 +42,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyCommentsCollection.cs" />
-    <Compile Include="AssemblyCommentsMetaCollection.cs" />
+    <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="XmlDocComments\AssemblyCommentsCollection.cs" />
+    <Compile Include="XmlDocComments\AssemblyCommentsMetaCollection.cs" />
+    <Compile Include="NServiceBus\NServiceBusReadmeBuilder.cs" />
+    <Compile Include="Reflection\AssemblyExtensions.cs" />
+    <Compile Include="Readme\NServiceBusReadmeBuilder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReadmeEntry.cs" />
-    <Compile Include="ReadmeMessageParameter.cs" />
+    <Compile Include="Readme\ReadmeEntry.cs" />
+    <Compile Include="Readme\ReadmeMessageParameter.cs" />
     <Compile Include="StringBuilderExtensions.cs" />
-    <Compile Include="TypeExtensions.cs" />
+    <Compile Include="Reflection\TypeExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

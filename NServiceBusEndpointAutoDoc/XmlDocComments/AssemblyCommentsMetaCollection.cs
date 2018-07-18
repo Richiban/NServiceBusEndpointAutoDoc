@@ -1,15 +1,16 @@
 ﻿using System.Collections.Concurrent;
+using System.IO;
 using System.Reflection;
 using System.Xml.Linq;
 
 namespace NServiceBusEndpointAutoDoc
 {
-    static class AssemblyCommentsMetaCollection
+    static class AssemblyCommentsCollectionFactory
     {
         private static readonly ConcurrentDictionary<Assembly, AssemblyCommentsCollection> _cache = 
             new ConcurrentDictionary<Assembly, AssemblyCommentsCollection>();
 
-        public static AssemblyCommentsCollection Get(Assembly assembly)
+        public static AssemblyCommentsCollection Create(Assembly assembly)
         {
             if (_cache.ContainsKey(assembly))
                 return _cache[assembly];
@@ -23,6 +24,9 @@ namespace NServiceBusEndpointAutoDoc
         private static AssemblyCommentsCollection LoadFrom(Assembly assembly)
         {
             var xmlCommentsFilePath = assembly.Location.Replace(".dll", ".xml");
+
+            if (!File.Exists(xmlCommentsFilePath))
+                return new AssemblyCommentsCollection();
 
             var xmlComments = XDocument.Load(xmlCommentsFilePath);
 

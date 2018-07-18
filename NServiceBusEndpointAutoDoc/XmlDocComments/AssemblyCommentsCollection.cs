@@ -16,14 +16,14 @@ namespace NServiceBusEndpointAutoDoc
             _xmlComments = xmlComments;
         }
 
-        public string GetComments(Type type)
+        internal AssemblyCommentsCollection()
         {
-            var typeName = type.FullName;
-
-            return
-                _xmlComments.XPathSelectElement(
-                    $"//member[@name=\"T:{typeName}\"]")?.Value?.Trim();
+            _xmlComments = new XDocument();
         }
+
+        public string GetComments(Type type) => 
+            _xmlComments.XPathSelectElement(
+                $"//member[@name=\"T:{type.FullName}\"]")?.Value?.Trim();
 
         public string GetComments(MethodInfo method)
         {
@@ -35,12 +35,13 @@ namespace NServiceBusEndpointAutoDoc
                     $"//member[@name=\"M:{declaringTypeName}.{method.Name}({parameterTypesString})\"]")?.Value?.Trim();
         }
 
-        public IEnumerable<(PropertyInfo, string)> GetPropertyComments(Type type)
-        {
-            return
-                type
+        public IEnumerable<(PropertyInfo property, string comment)> GetPropertyComments(Type type) => 
+            type
                 .GetProperties()
-                .Select(p => (p, ""));
-        }
+                .Select(p => (p, GetPropertyComment(p)));
+
+        private string GetPropertyComment(PropertyInfo p) =>
+            _xmlComments.XPathSelectElement(
+                $"//member[@name=\"P:{p.DeclaringType.FullName}.{p.Name}\"]")?.Value?.Trim();
     }
 }
