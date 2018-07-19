@@ -9,14 +9,13 @@ in order to automatically build Markdown documentation of the NServiceBus handle
 
 # MyCompany.MyNamespace.MyMessageType
 
-Any comments that are on my handler implementation class go here
-
-Any comments on the specific Handle method for this message type go here
-
-Any comments on the message type itself go here. Below are the names, types, and any comments on the properties of the message type:
-
+> Any comments on the message type itself go here. Below are the names, types, and any comments on the properties of the message type:
 
 | Field           | Type           | Comment                               |
 | --------------- | -------------- | ------------------------------------- |
 | SomeProperty    | Guid           | This is my comment about SomeProperty |
 | AnotherProperty | DateTimeOffset | AnotherProperty's comments go here    |
+
+Any comments that are on my handler implementation class go here
+
+Any comments on the specific Handle method for this message type go here
