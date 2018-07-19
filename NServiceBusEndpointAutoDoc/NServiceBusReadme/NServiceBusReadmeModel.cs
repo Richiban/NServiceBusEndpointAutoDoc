@@ -6,16 +6,16 @@ using System.Reflection;
 
 namespace NServiceBusEndpointAutoDoc
 {
-    class NServiceBusReadmeBuilder
+    class NServiceBusReadmeModel
     {
-        private readonly IEnumerable<MethodInfo> _methods;
-
-        private NServiceBusReadmeBuilder(IEnumerable<MethodInfo> methods)
+        private NServiceBusReadmeModel(IReadOnlyCollection<ReadmeEntry> readmeEntries)
         {
-            _methods = methods;
+            ReadmeEntries = readmeEntries;
         }
 
-        public static NServiceBusReadmeBuilder LoadFrom(string assemblyPath)
+        public IReadOnlyCollection<ReadmeEntry> ReadmeEntries { get; }
+
+        public static NServiceBusReadmeModel LoadFrom(string assemblyPath)
         {
             var nsbAssemblyPath = GuessNsbAssemblyPath(assemblyPath);
             var nsbAssembly = Assembly.LoadFrom(nsbAssemblyPath);
@@ -25,17 +25,9 @@ namespace NServiceBusEndpointAutoDoc
             var handleMethods = Assembly.LoadFrom(assemblyPath)
                     .GetMethodsImplementing(messageHandlerInterface);
 
-            return new NServiceBusReadmeBuilder(handleMethods);
-        }
+            var readmeEntries = handleMethods.Select(CreateReadmeEntry).ToList().AsReadOnly();
 
-        internal ReadmeBuilder CreateReadme()
-        {
-            var readmeBuilder = new ReadmeBuilder();
-            var readmeEntries = _methods.Select(CreateReadmeEntry);
-
-            readmeBuilder.PrintEntries(readmeEntries);
-
-            return readmeBuilder;
+            return new NServiceBusReadmeModel(readmeEntries);
         }
 
         private static string GuessNsbAssemblyPath(string assemblyPath)
@@ -45,7 +37,7 @@ namespace NServiceBusEndpointAutoDoc
             return Path.Combine(assemblyDirectory, "NServiceBus.Core.dll");
         }
 
-        ReadmeEntry CreateReadmeEntry(MethodInfo handleMethod)
+        private static ReadmeEntry CreateReadmeEntry(MethodInfo handleMethod)
         {
             var handlerType = handleMethod.DeclaringType;
             var handlerAssembly = handlerType.Assembly;
@@ -55,7 +47,7 @@ namespace NServiceBusEndpointAutoDoc
             var handlerAssemblyComments = AssemblyCommentsCollectionFactory.Create(handlerAssembly);
             var messageAssemblyComments = AssemblyCommentsCollectionFactory.Create(messageAssembly);
 
-            var messageParameters =
+            var messageParameterInfos =
                 messageAssemblyComments
                 .GetPropertyComments(messageType)
                 .Select(pc =>
@@ -68,12 +60,15 @@ namespace NServiceBusEndpointAutoDoc
                 )
                 .ToList();
 
+            var messageTypeComents = messageAssemblyComments.GetComments(messageType);
+
             return new ReadmeEntry
             {
                 EnclosingTypeComments = handlerAssemblyComments.GetComments(handlerType),
                 MethodComments = handlerAssemblyComments.GetComments(handleMethod),
-                ParameterTypeComments = messageType.FullName,
-                ParameterPropertyInfos = messageParameters
+                ParameterTypeName = messageType.FullName,
+                ParameterTypeComments = messageTypeComents,
+                ParameterPropertyInfos = messageParameterInfos
             };
         }
     }

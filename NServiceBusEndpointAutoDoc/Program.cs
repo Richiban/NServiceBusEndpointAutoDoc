@@ -20,17 +20,12 @@ namespace NServiceBusEndpointAutoDoc
                 return;
             }
 
-            var assemblyPath = args[0];
+            var nserviceBusModel = NServiceBusReadmeModel.LoadFrom(parsedArgs.AssemblyPath);
 
-            var nsbBuilder = NServiceBusReadmeBuilder.LoadFrom(assemblyPath);
+            var readmeWriter = new NServiceBusReadmeWriter()
+                .Write(nserviceBusModel);
 
-            var readmeBuilder = nsbBuilder.CreateReadme();
-
-            var readmeContents = readmeBuilder.ToString();
-
-            GetOutput(parsedArgs)(readmeContents);
-
-            if (Debugger.IsAttached) Debugger.Break();
+            GetOutput(parsedArgs)(readmeWriter.ToString());
         }
 
         private static Action<string> GetOutput(Args args)

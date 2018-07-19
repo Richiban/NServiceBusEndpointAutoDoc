@@ -4,6 +4,7 @@ namespace NServiceBusEndpointAutoDoc
 {
     class ReadmeEntry
     {
+        public string ParameterTypeName { get; internal set; }
         public string ParameterTypeComments { get; internal set; }
         public string EnclosingTypeComments { get; internal set; }
         public string MethodComments { get; internal set; }

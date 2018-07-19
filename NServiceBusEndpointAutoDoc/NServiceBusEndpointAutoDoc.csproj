@@ -42,17 +42,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NServiceBusReadme\NServiceBusReadmeModel.cs" />
+    <Compile Include="NServiceBusReadme\NServiceBusReadmeWriter.cs" />
     <Compile Include="Utils\EnumerableExtensions.cs" />
-    <Compile Include="Readme\ParameterPropertyInfo.cs" />
-    <Compile Include="Readme\ReadmeBuilder.cs" />
+    <Compile Include="NServiceBusReadme\ParameterPropertyInfo.cs" />
+    <Compile Include="Markdown\MarkdownBuilder.cs" />
     <Compile Include="XmlDocComments\AssemblyCommentsCollection.cs" />
     <Compile Include="XmlDocComments\AssemblyCommentsMetaCollection.cs" />
-    <Compile Include="NServiceBus\NServiceBusReadmeBuilder.cs" />
     <Compile Include="Reflection\AssemblyExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Readme\ReadmeEntry.cs" />
-    <Compile Include="Utils\StringBuilderExtensions.cs" />
+    <Compile Include="NServiceBusReadme\ReadmeEntry.cs" />
     <Compile Include="Reflection\TypeExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
